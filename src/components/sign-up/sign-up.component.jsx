@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 
-import "./sign-in.styles.scss";
+import "./sign-up.styles.scss";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
-
 import axios from "axios";
 
-class SignIn extends Component {
+class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: "",
+      email: "",
       password: "",
+      confirmPassword: "",
     };
   }
 
@@ -21,7 +22,7 @@ class SignIn extends Component {
     event.preventDefault();
 
     axios
-      .post("https://mern-ecommerce-temp.herokuapp.com/user/login", {
+      .post("https://mern-ecommerce-temp.herokuapp.com/user/register", {
         username,
         password,
       })
@@ -38,34 +39,33 @@ class SignIn extends Component {
   };
 
   render() {
+    const { username, password } = this.state;
     return (
-      <div className="sign-in">
-        <h2>I already have an account</h2>
-        <span>Sign in with your username and password</span>
-
-        <form onSubmit={this.handleSubmit}>
+      <div className="sign-up">
+        <h2 className="title">I do not have a account</h2>
+        <span>Sign up with your email and password</span>
+        <form className="sign-up-form" onSubmit={this.handleSubmit}>
           <FormInput
+            type="text"
             name="username"
-            type="username"
-            handleChange={this.handleChange}
-            value={this.state.username}
+            value={username}
+            onChange={this.handleChange}
             label="User Name"
             required
           />
-
           <FormInput
-            name="password"
             type="password"
-            handleChange={this.handleChange}
-            value={this.state.password}
+            name="password"
+            value={password}
+            onChange={this.handleChange}
             label="Password"
             required
           />
-          <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton type="submit">SIGN UP</CustomButton>
         </form>
       </div>
     );
   }
 }
 
-export default SignIn;
+export default SignUp;
