@@ -8,6 +8,8 @@ import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 import "./header.styles.scss";
 
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+import { createStructuredSelector } from "reselect";
+import { selectCartHidden } from "../../redux/cart/cart.selectors";
 
 const Header = ({ hidden }) => (
   <div className="header">
@@ -34,8 +36,8 @@ const Header = ({ hidden }) => (
   </div>
 );
 
-const mapStateToProps = ({ cart: { hidden } }) => ({
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  hidden: selectCartHidden,
 });
 
 export default connect(mapStateToProps)(Header);
