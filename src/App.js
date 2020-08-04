@@ -8,15 +8,14 @@ import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckOutPage from "./pages/checkout/checkout.component";
+import axios from "axios";
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/user/user.selector";
+import { setCurrentUser } from "./redux/user/user.actions";
+import { connect } from "react-redux";
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      currentUser: null,
-    };
-  }
+  unsubscribeFromAuth = null;
 
   render() {
     return (
@@ -33,4 +32,12 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

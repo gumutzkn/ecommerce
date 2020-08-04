@@ -16,18 +16,25 @@ class SignIn extends Component {
   }
 
   handleSubmit = (event) => {
-    const { username, password } = this.state;
-
     event.preventDefault();
 
-    axios
+    const { username, password } = this.state;
+
+    const instance = axios.create({ withCredentials: true });
+
+    instance
       .post("https://mern-ecommerce-temp.herokuapp.com/user/login", {
         username,
         password,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        instance
+          .get("https://mern-ecommerce-temp.herokuapp.com/")
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+        console.log(res);
+      })
       .catch((err) => console.log(err));
-
     this.setState({ username: "", password: "" });
   };
 
@@ -45,8 +52,8 @@ class SignIn extends Component {
 
         <form onSubmit={this.handleSubmit}>
           <FormInput
+            type="text"
             name="username"
-            type="username"
             handleChange={this.handleChange}
             value={this.state.username}
             label="User Name"
@@ -54,8 +61,8 @@ class SignIn extends Component {
           />
 
           <FormInput
-            name="password"
             type="password"
+            name="password"
             handleChange={this.handleChange}
             value={this.state.password}
             label="Password"
