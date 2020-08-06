@@ -40,28 +40,13 @@ import axios from "axios";
 // };
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      authenticatedUser: null,
-    };
-  }
-
-  componentDidMount() {
-    const instance = axios.create({ withCredentials: true });
-
-    // instance
-    //   .get("https://mern-ecommerce-temp.herokuapp.com/")
-    //   .then((res) => {
-    //     this.setState({ authenticatedUser: res.data.authenticatedUser });
-    //   })
-    //   .catch((err) => console.log(err));
-  }
+  logout = () => {
+    localStorage.removeItem("auth_token");
+    window.location.reload();
+  };
 
   render() {
     const { hidden } = this.props;
-    const { authenticatedUser } = this.state;
     return (
       <div className="header">
         <Link className="logo-container" to="/">
@@ -75,16 +60,18 @@ class Header extends Component {
           <Link className="option" to="/shop">
             SHOP
           </Link>
-          {authenticatedUser ? (
-            <div className="option">SIGN OUT</div>
-          ) : (
+          {localStorage.getItem("auth_token") && (
+            <div className="option" onClick={this.logout}>
+              SIGN OUT
+            </div>
+          )}
+
+          {!localStorage.getItem("auth_token") && (
             <Link className="option" to="/signin">
               SIGN IN
             </Link>
           )}
-          {/* <Link className="option" to="/signin">
-            SIGN IN
-          </Link> */}
+
           <CartIcon />
         </div>
         {hidden ? null : <CartDropdown />}

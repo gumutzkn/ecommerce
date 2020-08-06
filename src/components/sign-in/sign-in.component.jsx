@@ -18,24 +18,28 @@ class SignIn extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { username, password } = this.state;
+    var { username, password } = this.state;
 
-    const instance = axios.create({ withCredentials: true });
+    if (username && password) {
+      axios
+        .post("https://mern-ecommerce-temp.herokuapp.com/user/login", {
+          username,
+          password,
+        })
+        .then((res) => {
+          const { token } = res.data;
+          localStorage.setItem("auth_token", token);
+          window.location.replace("/");
+        })
+        .catch((err) => console.log(err));
 
-    instance
-      .post("https://mern-ecommerce-temp.herokuapp.com/user/login", {
-        username,
-        password,
-      })
-      .then((res) => {
-        instance
-          .get("https://mern-ecommerce-temp.herokuapp.com/")
-          .then((res) => console.log(res))
-          .catch((err) => console.log(err));
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-    this.setState({ username: "", password: "" });
+      this.setState({
+        username: "",
+        password: "",
+      });
+    } else {
+      console.log("Enter username or password");
+    }
   };
 
   handleChange = (event) => {
