@@ -10,7 +10,6 @@ import "./header.styles.scss";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import { createStructuredSelector } from "reselect";
 import { selectCartHidden } from "../../redux/cart/cart.selectors";
-import axios from "axios";
 
 // const Header = ({ hidden }) => {
 //   return (
